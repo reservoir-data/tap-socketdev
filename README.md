@@ -1,6 +1,6 @@
 # `tap-socketdev`
 
-Singer tap for Socket.
+Singer tap for [socket.dev](https://socket.dev).
 
 Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
 
