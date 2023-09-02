@@ -1,7 +1,8 @@
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = [
-  "poetry-core<2,>=1",
+  "poetry-core==1.7",
+  "poetry-dynamic-versioning",
 ]
 
 [tool.poetry]
@@ -21,7 +22,7 @@ repository = "https://github.com/edgarrmondragon/tap-socketdev"
 documentation = "https://github.com/edgarrmondragon/tap-socketdev#readme"
 
 [tool.poetry.dependencies]
-python = "<3.12,>=3.7.1"
+python = "<3.12,>=3.8"
 singer-sdk = "~=0.31.0"
 
 [tool.poetry.group.dev.dependencies]
@@ -75,3 +76,18 @@ warn_unused_ignores = true
 [[tool.mypy.overrides]]
 ignore_missing_imports = true
 module = ["backoff.*"]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+format-jinja = """
+    {%- if distance == 0 -%}
+        {{ serialize_pep440(base, stage, revision) }}
+    {%- elif revision is not none -%}
+        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
+    {%- else -%}
+        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
+    {%- endif -%}
+"""
+metadata = true
+style = "pep440"
+vcs = "git"
