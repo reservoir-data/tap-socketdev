@@ -1,8 +1,8 @@
 ci:
-  autofix_commit_msg: '[pre-commit.ci] auto fixes'
+  autofix_commit_msg: "[pre-commit.ci] auto fixes"
   autofix_prs: true
   autoupdate_schedule: monthly
-  autoupdate_commit_msg: 'chore(deps): pre-commit autoupdate'
+  autoupdate_commit_msg: "ci(deps-dev): pre-commit autoupdate"
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -40,6 +40,6 @@ repos:
           - types-requests
 
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v3.3.3
+    rev: v3.4.0
     hooks:
       - id: validate_manifest
