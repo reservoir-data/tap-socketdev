@@ -18,7 +18,6 @@ plugins:
     - catalog
     - discover
     settings:
-    # TODO: To configure using Meltano, declare settings and their types here:
     - name: api_key
       kind: password
       label: API Key
