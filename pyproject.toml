@@ -7,7 +7,7 @@ requires = [
 
 [tool.poetry]
 name = "tap-socketdev"
-version = "0.0.1"
+version = "0.0.0"
 description = "`tap-socketdev` is a Singer tap for Socket, built with the Meltano SDK for Singer Taps."
 authors = ["Edgar Ramírez-Mondragón <edgarrm358@gmail.com>"]
 keywords = [
