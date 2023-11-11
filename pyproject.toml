@@ -33,23 +33,27 @@ pytest = "~=7.4"
 "tap-socketdev" = "tap_socketdev.tap:TapSocketDev.cli"
 
 [tool.ruff]
+line-length = 88
+src = ["tap_socketdev", "tests"]
+target-version = "py38"
+
+[tool.ruff.lint]
 ignore = [
   "ANN101",  # missing-type-self
   "DJ",      # flake8-django
   "FIX002",  # line-contains-todo
+  "COM812",  # missing-trailing-comma
+  "ISC001",  # single-line-implicit-string-concatenation
 ]
-line-length = 88
 select = ["ALL"]
-src = ["tap_socketdev", "tests"]
-target-version = "py38"
 unfixable = [
   "ERA001",  # commented-out-code
 ]
 
-[tool.ruff.flake8-annotations]
+[tool.ruff.lint.flake8-annotations]
 allow-star-arg-any = true
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "noxfile.py" = ["ANN"]
 "tests/*" = [
   "ANN201",  # missing-return-type-public-function
@@ -57,11 +61,11 @@ allow-star-arg-any = true
   "SLF001",  # private-member-access
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["tap_socketdev"]
 required-imports = ["from __future__ import annotations"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.pytest.ini_options]

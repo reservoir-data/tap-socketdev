@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from requests.auth import HTTPBasicAuth
 from singer_sdk import RESTStream
-from singer_sdk.authenticators import BasicAuthenticator
 
 
 class SocketDevStream(RESTStream):
@@ -12,14 +12,13 @@ class SocketDevStream(RESTStream):
     url_base = "https://api.socket.dev"
 
     @property
-    def authenticator(self) -> BasicAuthenticator:
+    def authenticator(self) -> HTTPBasicAuth:
         """Get an authenticator object.
 
         Returns:
             The authenticator instance for this REST stream.
         """
-        return BasicAuthenticator(
-            stream=self,
+        return HTTPBasicAuth(
             username=self.config["api_key"],
             password="",
         )
