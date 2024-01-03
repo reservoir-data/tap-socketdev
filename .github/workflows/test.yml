@@ -4,23 +4,23 @@ on:
   push:
     branches: [main]
     paths:
-      - tap_socketdev/**
-      - tests/**
-      - noxfile.py
-      - poetry.lock
-      - pyproject.toml
-      - .github/workflows/test.yml
-      - .github/workflows/constraints.txt
+    - tap_socketdev/**
+    - tests/**
+    - noxfile.py
+    - poetry.lock
+    - pyproject.toml
+    - .github/workflows/test.yml
+    - .github/workflows/constraints.txt
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - tap_socketdev/**
-      - tests/**
-      - noxfile.py
-      - poetry.lock
-      - pyproject.toml
-      - .github/workflows/test.yml
-      - .github/workflows/constraints.txt
+    - tap_socketdev/**
+    - tests/**
+    - noxfile.py
+    - poetry.lock
+    - pyproject.toml
+    - .github/workflows/test.yml
+    - .github/workflows/constraints.txt
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -34,10 +34,9 @@ jobs:
       NOXPYTHON: ${{ matrix.python-version }}
       NOXSESSION: tests
       PIP_CONSTRAINT: .github/workflows/constraints.txt
-      SETUPTOOLS_USE_DISTUTILS: stdlib
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - name: Checkout code
