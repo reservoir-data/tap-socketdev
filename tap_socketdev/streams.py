@@ -18,7 +18,7 @@ class Reports(SocketDevStream):
     name = "reports"
     path = "/v0/report/list"
     records_jsonpath = "$[*]"
-    primary_keys: t.ClassVar[list[str]] = ["id"]
+    primary_keys = ("id",)
     replication_key = None
 
     schema = th.PropertiesList(
@@ -40,7 +40,7 @@ class Organizations(SocketDevStream):
 
     name = "organizations"
     path = "/v0/organizations"
-    primary_keys: t.ClassVar[list[str]] = ["id"]
+    primary_keys = ("id",)
     replication_key = None
 
     schema = th.PropertiesList(
