@@ -1,8 +1,27 @@
-# `tap-socketdev`
+<div align="center">
+  
+# tap-socketdev
+
+<div>
+  <a href="https://results.pre-commit.ci/latest/github/edgarrmondragon/tap-socketdev/main">
+    <img alt="pre-commit.ci status" src="https://results.pre-commit.ci/badge/github/edgarrmondragon/tap-socketdev/main.svg"/>
+  </a>
+  <a href="https://github.com/edgarrmondragon/tap-socketdev/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/github/license/edgarrmondragon/tap-socketdev"/>
+  </a>
+  <a href="https://github.com/astral-sh/ruff">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json" alt="Ruff" style="max-width:100%;">
+  </a>
+  <a href="https://pypi.org/p/tap-socketdev/">
+    <img alt="Python versions" src="https://img.shields.io/pypi/pyversions/tap-socketdev"/>
+  </a>
+</div>
 
 Singer tap for [socket.dev](https://socket.dev).
 
 Built with the [Meltano Tap SDK](https://sdk.meltano.com) for Singer Taps.
+
+</div>
 
 ## Capabilities
 
