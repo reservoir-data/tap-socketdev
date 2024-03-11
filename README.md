@@ -1,5 +1,5 @@
 <div align="center">
-  
+
 # tap-socketdev
 
 <div>
