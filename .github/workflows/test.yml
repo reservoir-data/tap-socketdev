@@ -26,6 +26,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+env:
+  FORCE_COLOR: "1"
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -36,7 +39,13 @@ jobs:
       PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/constraints.txt
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version:
+        - "3.8"
+        - "3.9"
+        - "3.10"
+        - "3.11"
+        - "3.12"
+        - "3.13"
 
     steps:
     - name: Checkout code
@@ -46,6 +55,9 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        allow-prereleases: true
+        cache: pip
+        cache-dependency-path: poetry.lock
 
     - name: Upgrade pip
       run: |
@@ -69,4 +81,4 @@ jobs:
         TAP_SOCKETDEV_API_KEY: ${{ secrets.TAP_SOCKETDEV_API_KEY }}
         TAP_SOCKETDEV_START_DATE: ${{ secrets.TAP_SOCKETDEV_START_DATE }}
       run: |
-        nox
+        nox --verbose
