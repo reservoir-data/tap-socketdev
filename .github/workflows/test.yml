@@ -38,6 +38,8 @@ jobs:
       NOXSESSION: tests
       PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/constraints.txt
     strategy:
+      fail-fast: false
+      max-parallel: 2
       matrix:
         python-version:
         - "3.8"
@@ -82,3 +84,37 @@ jobs:
         TAP_SOCKETDEV_START_DATE: ${{ secrets.TAP_SOCKETDEV_START_DATE }}
       run: |
         nox --verbose
+
+  typing:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+        cache-dependency-path: poetry.lock
+
+    - name: Upgrade pip
+      run: |
+        pip install pip
+        pip --version
+
+    - name: Install Poetry
+      run: |
+        pipx install poetry
+        poetry --version
+        poetry self show plugins
+
+    - name: Install Nox
+      run: |
+        pipx install nox
+        pipx inject nox nox-poetry
+        nox --version
+
+    - name: Run typing checks
+      run: |
+        nox --verbose -s mypy

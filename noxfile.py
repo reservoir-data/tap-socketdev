@@ -38,3 +38,13 @@ def tests(session: Session) -> None:
     session.install(".")
     session.install(*deps)
     session.run("pytest", *session.posargs)
+
+
+@session
+def mypy(session: Session) -> None:
+    """Check types."""
+    deps = ["mypy", "types-requests"]
+    args = session.posargs or ("tap_socketdev",)
+    session.install(".")
+    session.install(*deps)
+    session.run("mypy", *args)
