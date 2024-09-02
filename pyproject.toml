@@ -8,7 +8,7 @@ requires = [
 [tool.poetry]
 name = "tap-socketdev"
 version = "0.0.0"
-description = "`tap-socketdev` is a Singer tap for Socket, built with the Meltano SDK for Singer Taps."
+description = "Singer tap for Socket, built with the Meltano SDK for Singer Taps."
 authors = [
   "Edgar Ramírez-Mondragón <edgarrm358@gmail.com>",
 ]
@@ -108,7 +108,7 @@ max_supported_python = "3.13"
 addopts = "-vvv"
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.12"
 warn_redundant_casts = true
 warn_unused_configs = true
 warn_unused_ignores = true
