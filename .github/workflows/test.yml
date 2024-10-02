@@ -21,6 +21,10 @@ on:
     - pyproject.toml
     - .github/workflows/test.yml
     - .github/workflows/constraints.txt
+  workflow_dispatch:
+  schedule:
+  # Run weekly on Monday at 12:00 PM UTC
+  - cron: "0 12 * * 1"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -94,7 +98,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.12"
+        python-version: "3.x"
         cache: pip
         cache-dependency-path: poetry.lock
 
