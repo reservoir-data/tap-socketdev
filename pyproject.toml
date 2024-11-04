@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "poetry_dynamic_versioning.backend"
 requires = [
-  "poetry-core<2,>=1.8",
+  "poetry-core>=1.8,<2",
   "poetry-dynamic-versioning",
 ]
 
@@ -13,7 +13,6 @@ authors = [
   "Edgar Ramírez-Mondragón <edgarrm358@gmail.com>",
 ]
 classifiers = [
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -32,7 +31,7 @@ repository = "https://github.com/edgarrmondragon/tap-socketdev"
 documentation = "https://github.com/edgarrmondragon/tap-socketdev#readme"
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = ">=3.9"
 singer-sdk = "~=0.41.0"
 requests = "~=2.32.0"
 
@@ -64,7 +63,7 @@ style = "pep440"
 vcs = "git"
 
 [tool.ruff]
-target-version = "py38"
+target-version = "py39"
 
 line-length = 88
 src = [
