@@ -41,7 +41,7 @@ pytest = "~=8.0"
 singer-sdk = { version = "*", extras = [
   "testing",
 ] }
-types-requests = "~=2.31.0"
+types-requests = "~=2.32.0"
 
 [tool.poetry.scripts]
 # CLI declaration
