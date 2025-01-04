@@ -5,35 +5,46 @@ requires = [
   "poetry-dynamic-versioning==1.7.1",
 ]
 
-[tool.poetry]
+[project]
 name = "tap-socketdev"
-version = "0.0.0"
 description = "Singer tap for Socket, built with the Meltano SDK for Singer Taps."
-authors = [
-  "Edgar Ramírez-Mondragón <edgarrm358@gmail.com>",
-]
-classifiers = [
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: 3.13",
-]
+readme = "README.md"
 keywords = [
   "ELT",
   "singer.io",
   "Socket",
 ]
 license = "Apache-2.0"
-readme = "README.md"
-homepage = "https://github.com/edgarrmondragon/tap-socketdev"
-repository = "https://github.com/edgarrmondragon/tap-socketdev"
-documentation = "https://github.com/edgarrmondragon/tap-socketdev#readme"
+authors = [ { name = "Edgar Ramírez-Mondragón", email = "edgarrm358@gmail.com" } ]
+requires-python = ">=3.9"
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+dynamic = [ "version" ]
+dependencies = [
+  "requests~=2.32.0",
+  "singer-sdk~=0.44.2",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9"
-singer-sdk = "~=0.44.2"
-requests = "~=2.32.0"
+urls.Documentation = "https://github.com/edgarrmondragon/tap-socketdev#readme"
+urls.Homepage = "https://github.com/edgarrmondragon/tap-socketdev"
+urls.Repository = "https://github.com/edgarrmondragon/tap-socketdev"
+scripts.tap-socketdev = "tap_socketdev.tap:TapSocketDev.cli"
+
+[tool.poetry]
+requires-poetry = ">=2.0"
+version = "0.0.0"
+
+[tool.poetry.requires-plugins]
+poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = [ "plugin" ] }
+poetry-plugin-export = ">=1.8"
 
 [tool.poetry.group.dev.dependencies]
 mypy = ">=1.8.0"
@@ -42,10 +53,6 @@ singer-sdk = { version = "*", extras = [
   "testing",
 ] }
 types-requests = "~=2.32.0"
-
-[tool.poetry.scripts]
-# CLI declaration
-"tap-socketdev" = "tap_socketdev.tap:TapSocketDev.cli"
 
 [tool.poetry-dynamic-versioning]
 enable = true
@@ -63,8 +70,6 @@ style = "pep440"
 vcs = "git"
 
 [tool.ruff]
-target-version = "py39"
-
 line-length = 88
 src = [
   "tap_socketdev",
@@ -100,7 +105,7 @@ lint.isort.required-imports = [
 lint.pydocstyle.convention = "google"
 
 [tool.pyproject-fmt]
-max_supported_python = "3.13"
+max_supported_python = "3.14"
 
 [tool.pytest.ini_options]
 addopts = "-vvv"
