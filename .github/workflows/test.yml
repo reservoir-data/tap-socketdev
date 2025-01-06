@@ -37,7 +37,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      FORCE_COLOR: "1"
       NOXPYTHON: ${{ matrix.python-version }}
       NOXSESSION: tests
       PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/constraints.txt
@@ -90,6 +89,9 @@ jobs:
 
   typing:
     runs-on: ubuntu-latest
+    env:
+      NOXSESSION: mypy
+      PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/constraints.txt
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -120,4 +122,4 @@ jobs:
 
     - name: Run typing checks
       run: |
-        nox --verbose -s mypy
+        nox --verbose
