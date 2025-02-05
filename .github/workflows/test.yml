@@ -32,14 +32,23 @@ concurrency:
 
 env:
   FORCE_COLOR: "1"
+  # renovate: datasource=pypi depName=nox
+  NOX_VERSION: 2024.10.9
+  # renovate: datasource=pypi depName=nox-poetry
+  NOX_POETRY_VERSION: 1.1.0
+  # renovate: datasource=pypi depName=pip
+  PIP_VERSION: 25.0
+  # renovate: datasource=pypi depName=poetry
+  POETRY_VERSION: 2.0.1
+  # renovate: datasource=pypi depName=poetry-plugin-export
+  POETRY_PLUGIN_EXPORT_VERSION: 1.9.0
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       NOXPYTHON: ${{ matrix.python-version }}
       NOXSESSION: tests
-      PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/constraints.txt
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -65,20 +74,20 @@ jobs:
 
     - name: Upgrade pip
       run: |
-        pip install pip
+        pip install pip==${{ env.PIP_VERSION }}
         pip --version
 
     - name: Install Poetry
       run: |
-        pipx install poetry
-        pipx inject poetry poetry-plugin-export
+        pipx install poetry==${{ env.POETRY_VERSION }}
+        pipx inject poetry poetry-plugin-export==${{ env.POETRY_PLUGIN_EXPORT_VERSION }}
         poetry --version
         poetry self show plugins
 
     - name: Install Nox
       run: |
-        pipx install nox
-        pipx inject nox nox-poetry
+        pipx install nox==${{ env.NOX_VERSION }}
+        pipx inject nox nox-poetry==${{ env.NOX_POETRY_VERSION }}
         nox --version
 
     - name: Run tests
@@ -89,10 +98,9 @@ jobs:
         nox --verbose
 
   typing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       NOXSESSION: mypy
-      PIP_CONSTRAINT: ${{ github.workspace }}/.github/workflows/constraints.txt
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -106,20 +114,20 @@ jobs:
 
     - name: Upgrade pip
       run: |
-        pip install pip
+        pip install pip==${{ env.PIP_VERSION }}
         pip --version
 
     - name: Install Poetry
       run: |
-        pipx install poetry
-        pipx inject poetry poetry-plugin-export
+        pipx install poetry==${{ env.POETRY_VERSION }}
+        pipx inject poetry poetry-plugin-export==${{ env.POETRY_PLUGIN_EXPORT_VERSION }}
         poetry --version
         poetry self show plugins
 
     - name: Install Nox
       run: |
-        pipx install nox
-        pipx inject nox nox-poetry
+        pipx install nox==${{ env.NOX_VERSION }}
+        pipx inject nox nox-poetry==${{ env.NOX_POETRY_VERSION }}
         nox --version
 
     - name: Run typing checks
