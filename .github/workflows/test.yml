@@ -47,8 +47,9 @@ jobs:
   test:
     runs-on: ubuntu-24.04
     env:
-      NOXPYTHON: ${{ matrix.python-version }}
+      NOXFORCEPYTHON: ${{ matrix.python-version }}
       NOXSESSION: tests
+      PYO3_USE_ABI3_FORWARD_COMPATIBILITY: "1"
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -59,6 +60,7 @@ jobs:
         - "3.11"
         - "3.12"
         - "3.13"
+        - "3.14"
 
     steps:
     - name: Checkout code
@@ -107,8 +109,8 @@ jobs:
 
     - name: Set up Python
       uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+      id: setup-python
       with:
-        python-version: "3.x"
         cache: pip
         cache-dependency-path: poetry.lock
 
@@ -119,14 +121,14 @@ jobs:
 
     - name: Install Poetry
       run: |
-        pipx install poetry==${{ env.POETRY_VERSION }}
+        pipx install --python ${{ steps.setup-python.outputs.python-path }} poetry==${{ env.POETRY_VERSION }}
         pipx inject poetry poetry-plugin-export==${{ env.POETRY_PLUGIN_EXPORT_VERSION }}
         poetry --version
         poetry self show plugins
 
     - name: Install Nox
       run: |
-        pipx install nox==${{ env.NOX_VERSION }}
+        pipx install --python ${{ steps.setup-python.outputs.python-path }} nox==${{ env.NOX_VERSION }}
         pipx inject nox nox-poetry==${{ env.NOX_POETRY_VERSION }}
         nox --version
 
