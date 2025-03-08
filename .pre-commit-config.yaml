@@ -34,7 +34,7 @@ repos:
         pass_filenames: true
         language: python
         additional_dependencies:
-          - types-requests==2.32.0.20250301
+          - types-requests==2.32.0.20250306
 
   - repo: https://github.com/pre-commit/pre-commit
     rev: v4.1.0
