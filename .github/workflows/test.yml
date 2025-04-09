@@ -10,7 +10,6 @@ on:
     - poetry.lock
     - pyproject.toml
     - .github/workflows/test.yml
-    - .github/workflows/constraints.txt
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
@@ -20,7 +19,6 @@ on:
     - poetry.lock
     - pyproject.toml
     - .github/workflows/test.yml
-    - .github/workflows/constraints.txt
   workflow_dispatch:
   schedule:
   # Run weekly on Monday at 12:00 PM UTC
