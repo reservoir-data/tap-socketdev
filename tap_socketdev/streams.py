@@ -79,3 +79,97 @@ class Organizations(SocketDevStream):
             An iterator of parsed records.
         """
         yield from response.json()["organizations"].values()
+
+    def generate_child_contexts(
+        self,
+        record: dict[str, t.Any],
+        context: dict | None,  # noqa: ARG002
+    ) -> t.Iterable[dict | None]:
+        """Generate child contexts for the stream."""
+        yield {
+            "org_slug": record["slug"],
+        }
+
+
+class Repositories(SocketDevStream):
+    """Repositories stream."""
+
+    name = "repositories"
+    path = "/v0/orgs/{org_slug}/repos"
+    primary_keys = ("id",)
+    replication_key = None
+
+    parent_stream_type = Organizations
+
+    schema = th.PropertiesList(
+        th.Property(
+            "id",
+            th.StringType,
+            description="The repository's unique identifier",
+        ),
+        th.Property(
+            "created_at",
+            th.DateTimeType,
+            description="The creation date of the repository",
+        ),
+        th.Property(
+            "updated_at",
+            th.DateTimeType,
+            description="The last update date of the repository",
+        ),
+        th.Property(
+            "slug",
+            th.StringType,
+            description="The slug of the repository",
+        ),
+        th.Property(
+            "head_full_scan_id",
+            th.StringType,
+            description="The ID of the head full scan of the repository",
+        ),
+        th.Property(
+            "name",
+            th.StringType,
+            description="The name of the repository",
+        ),
+        th.Property(
+            "description",
+            th.StringType,
+            description="The description of the repository",
+        ),
+        th.Property(
+            "homepage",
+            th.StringType,
+            description="The homepage URL of the repository",
+        ),
+        th.Property(
+            "visibility",
+            th.StringType,
+            description="The visibility of the repository",
+            allowed_values=["public", "private"],
+        ),
+        th.Property(
+            "archived",
+            th.BooleanType,
+            description="Whether the repository is archived or not",
+        ),
+        th.Property(
+            "default_branch",
+            th.StringType,
+            description="The default branch of the repository",
+        ),
+    ).to_dict()
+
+    def parse_response(
+        self,
+        response: Response,
+    ) -> t.Generator[dict, None, None]:
+        """Parse the response and return an iterator of result rows.
+
+        Args:
+            response: The response object.
+
+        Yields:
+            An iterator of parsed records.
+        """
+        yield from response.json()["repositories"].values()
