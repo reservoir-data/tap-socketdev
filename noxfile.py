@@ -18,6 +18,7 @@ except ImportError:
     raise SystemExit(dedent(message)) from None
 
 python_versions = [
+    "3.14",
     "3.13",
     "3.12",
     "3.11",
