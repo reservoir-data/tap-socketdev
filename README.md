@@ -82,8 +82,8 @@ tap-socketdev --config CONFIG --discover > ./catalog.json
 ### Initialize your Development Environment
 
 ```bash
-uv tool install poetry
-poetry install
+curl -LsSf https://astral.sh/uv/install.sh | sh  # or see https://docs.astral.sh/uv/getting-started/installation/
+uv sync
 ```
 
 ### Create and Run Tests
@@ -91,13 +91,13 @@ poetry install
 Create tests within the `tests` subfolder and then run:
 
 ```bash
-poetry run pytest
+uvx pytest
 ```
 
-You can also test the `tap-socketdev` CLI interface directly using `poetry run`:
+You can also test the `tap-socketdev` CLI interface directly using `uv run`:
 
 ```bash
-poetry run tap-socketdev --help
+uv run tap-socketdev --help
 ```
 
 ### Testing with [Meltano](https://www.meltano.com)
@@ -122,8 +122,8 @@ Now you can test and orchestrate using Meltano:
 ```bash
 # Test invocation:
 meltano invoke tap-socketdev --version
-# OR run a test `elt` pipeline:
-meltano elt tap-socketdev target-jsonl
+# OR run a test EL pipeline:
+meltano run tap-socketdev target-jsonl
 ```
 
 ### SDK Dev Guide

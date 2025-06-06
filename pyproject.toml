@@ -1,8 +1,8 @@
 [build-system]
-build-backend = "poetry_dynamic_versioning.backend"
+build-backend = "hatchling.build"
 requires = [
-  "poetry-core==2.1.3",
-  "poetry-dynamic-versioning==1.8.2",
+  "hatch-vcs==0.5",
+  "hatchling==1.27",
 ]
 
 [project]
@@ -28,53 +28,38 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dynamic = [ "version" ]
+
 dependencies = [
   "requests~=2.32.0",
   "singer-sdk~=0.46.0",
 ]
-
 urls.Documentation = "https://github.com/edgarrmondragon/tap-socketdev#readme"
 urls.Homepage = "https://github.com/edgarrmondragon/tap-socketdev"
 urls.Repository = "https://github.com/edgarrmondragon/tap-socketdev"
 scripts.tap-socketdev = "tap_socketdev.tap:TapSocketDev.cli"
 
-[tool.poetry]
-requires-poetry = ">=2.0"
-version = "0.0.0"
+[dependency-groups]
+dev = [
+  { include-group = "testing" },
+  { include-group = "typing" },
+]
+ci = [
+  "pytest-github-actions-annotate-failures>=0.3",
+]
+testing = [
+  "pytest~=8.0",
+  "singer-sdk[testing]",
+]
+typing = [
+  "mypy>=1.8",
+  "types-requests~=2.32.0",
+]
 
-[tool.poetry.requires-plugins]
-poetry-dynamic-versioning = { version = ">=1.0.0,<2.0.0", extras = [ "plugin" ] }
-poetry-plugin-export = ">=1.8"
-
-[tool.poetry.group.dev.dependencies]
-mypy = ">=1.8.0"
-pytest = "~=8.0"
-singer-sdk = { version = "*", extras = [
-  "testing",
-] }
-types-requests = "~=2.32.0"
-
-[tool.poetry-dynamic-versioning]
-enable = true
-format-jinja = """
-    {%- if distance == 0 -%}
-        {{ serialize_pep440(base, stage, revision) }}
-    {%- elif revision is not none -%}
-        {{ serialize_pep440(base, stage, revision + 1, dev=distance, metadata=[commit]) }}
-    {%- else -%}
-        {{ serialize_pep440(bump_version(base), stage, revision, dev=distance, metadata=[commit]) }}
-    {%- endif -%}
-"""
-metadata = true
-style = "pep440"
-vcs = "git"
+[tool.hatch.version]
+source = "vcs"
 
 [tool.ruff]
 line-length = 88
-src = [
-  "tap_socketdev",
-  "tests",
-]
 lint.select = [
   "ALL",
 ]
@@ -89,6 +74,7 @@ lint.per-file-ignores."noxfile.py" = [
 ]
 lint.per-file-ignores."tests/*" = [
   "ANN201", # missing-return-type-public-function
+  "INP001", # implicit-namespace-package
   "S101",   # assert
   "SLF001", # private-member-access
 ]
@@ -96,9 +82,6 @@ lint.unfixable = [
   "ERA001", # commented-out-code
 ]
 lint.flake8-annotations.allow-star-arg-any = true
-lint.isort.known-first-party = [
-  "tap_socketdev",
-]
 lint.isort.required-imports = [
   "from __future__ import annotations",
 ]

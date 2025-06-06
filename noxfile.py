@@ -2,20 +2,7 @@
 
 from __future__ import annotations
 
-import os
-import sys
-from textwrap import dedent
-
 import nox
-
-try:
-    from nox_poetry import Session, session
-except ImportError:
-    message = f"""\
-    Nox failed to import the 'nox-poetry' package.
-    Please install it using the following command:
-    {sys.executable} -m pip install nox-poetry"""
-    raise SystemExit(dedent(message)) from None
 
 python_versions = [
     "3.14",
@@ -25,26 +12,50 @@ python_versions = [
     "3.10",
     "3.9",
 ]
-nox.options.sessions = ("tests",)
+nox.needs_version = ">=2025.2.9"
+nox.options.sessions = ("tests", "mypy")
+nox.options.default_venv_backend = "uv"
+
+UV_SYNC_COMMAND = (
+    "uv",
+    "sync",
+    "--locked",
+    "--no-dev",
+)
 
 
-@session(python=python_versions)
-def tests(session: Session) -> None:
+@nox.session(python=python_versions)
+def tests(session: nox.Session) -> None:
     """Execute pytest tests."""
-    deps = ["pytest", "pytest-durations"]
-    if "GITHUB_ACTIONS" in os.environ:
-        deps.append("pytest-github-actions-annotate-failures")
+    env = {
+        "UV_PROJECT_ENVIRONMENT": session.virtualenv.location,
+    }
+    if isinstance(session.python, str):
+        env["UV_PYTHON"] = session.python
 
-    session.install(".")
-    session.install(*deps)
+    session.run_install(
+        *UV_SYNC_COMMAND,
+        "--group=ci",
+        "--group=testing",
+        env=env,
+    )
     session.run("pytest", *session.posargs)
 
 
-@session
-def mypy(session: Session) -> None:
+@nox.session
+def mypy(session: nox.Session) -> None:
     """Check types."""
-    deps = ["mypy", "types-requests"]
-    args = session.posargs or ("tap_socketdev",)
-    session.install(".")
-    session.install(*deps)
+    env = {
+        "UV_PROJECT_ENVIRONMENT": session.virtualenv.location,
+    }
+    if isinstance(session.python, str):
+        env["UV_PYTHON"] = session.python
+
+    session.run_install(
+        *UV_SYNC_COMMAND,
+        "--group=testing",
+        "--group=typing",
+        env=env,
+    )
+    args = session.posargs or ("tap_socketdev", "tests")
     session.run("mypy", *args)
