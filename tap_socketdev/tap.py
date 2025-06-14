@@ -38,4 +38,8 @@ class TapSocketDev(Tap):
         Returns:
             A list of Socket streams.
         """
-        return [streams.Reports(tap=self), streams.Organizations(tap=self)]
+        return [
+            streams.Reports(tap=self),
+            streams.Organizations(tap=self),
+            streams.Repositories(tap=self),
+        ]
