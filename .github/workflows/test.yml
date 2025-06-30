@@ -44,7 +44,7 @@ jobs:
       PYO3_USE_ABI3_FORWARD_COMPATIBILITY: "1"
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 1
       matrix:
         python-version:
         - "3.9"
