@@ -10,7 +10,6 @@ python_versions = [
     "3.12",
     "3.11",
     "3.10",
-    "3.9",
 ]
 nox.needs_version = ">=2025.2.9"
 nox.options.sessions = ("tests", "mypy")
