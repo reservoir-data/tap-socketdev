@@ -39,7 +39,7 @@ repos:
           - types-requests==2.32.4.20250809
 
   - repo: https://github.com/pre-commit/pre-commit
-    rev: v4.2.0
+    rev: v4.3.0
     hooks:
       - id: validate_manifest
 
