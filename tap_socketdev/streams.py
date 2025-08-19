@@ -6,6 +6,7 @@ import typing as t
 from typing import override
 
 from singer_sdk import typing as th
+from singer_sdk.pagination import BasePageNumberPaginator
 
 from tap_socketdev.client import SocketDevStream
 
@@ -91,7 +92,7 @@ class Repositories(SocketDevStream):
     records_jsonpath = "$.results[*]"
     next_page_token_jsonpath = "$.nextPage"  # noqa: S105
     primary_keys = ("id",)
-    replication_key = "updated_at"
+    replication_key = None
 
     parent_stream_type = Organizations
 
@@ -171,3 +172,65 @@ class Repositories(SocketDevStream):
             "sort": "updated_at",
             "direction": "asc",
         }
+
+
+class RepoLabels(SocketDevStream):
+    """Repo labels stream."""
+
+    name = "repo_labels"
+    path = "/v0/orgs/{org_slug}/repos/labels"
+    records_jsonpath = "$.results[*]"
+    primary_keys = ("id",)
+    replication_key = None
+
+    parent_stream_type = Organizations
+
+    schema = th.PropertiesList(
+        th.Property(
+            "id",
+            th.StringType,
+            description="The ID of the label",
+        ),
+        th.Property(
+            "name",
+            th.StringType,
+            description="The name of the label",
+        ),
+        th.Property(
+            "repository_ids",
+            th.ArrayType(th.StringType),
+            description="The IDs of repositories this label is associated with",
+        ),
+        th.Property(
+            "has_security_policy",
+            th.BooleanType,
+            description="Whether the label has a security policy",
+            default=False,
+        ),
+        th.Property(
+            "has_license_policy",
+            th.BooleanType,
+            description="Whether the label has a license policy",
+            default=False,
+        ),
+        th.Property(
+            "org_slug",
+            th.StringType,
+            description="The slug of the organization the label belongs to",
+        ),
+    ).to_dict()
+
+    @override
+    def get_url_params(
+        self,
+        context: Context | None,
+        next_page_token: int | None,
+    ) -> dict[str, t.Any] | str:
+        return {
+            "page": next_page_token,
+            "per_page": 100,
+        }
+
+    @override
+    def get_new_paginator(self) -> BasePageNumberPaginator | None:
+        return BasePageNumberPaginator(start_value=1)
