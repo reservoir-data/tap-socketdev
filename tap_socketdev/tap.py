@@ -2,12 +2,18 @@
 
 from __future__ import annotations
 
+import sys
 import typing as t
 
 from singer_sdk import Tap
 from singer_sdk import typing as th
 
 from tap_socketdev import streams
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
 if t.TYPE_CHECKING:
     from singer_sdk.streams import RESTStream
@@ -23,19 +29,21 @@ class TapSocketDev(Tap):
             "api_key",
             th.StringType,
             required=True,
+            secret=True,
+            title="API Key",
             description="API Key for Socket",
         ),
         th.Property(
             "start_date",
             th.DateTimeType,
+            title="Start Date",
             description="Earliest datetime to get data from",
         ),
     ).to_dict()
 
+    @override
     def discover_streams(self) -> list[RESTStream]:
-        """Return a list of discovered streams.
-
-        Returns:
-            A list of Socket streams.
-        """
-        return [streams.Reports(tap=self), streams.Organizations(tap=self)]
+        return [
+            streams.Reports(tap=self),
+            streams.Organizations(tap=self),
+        ]

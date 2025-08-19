@@ -31,6 +31,7 @@ dynamic = [ "version" ]
 dependencies = [
   "requests~=2.32.0",
   "singer-sdk~=0.48.0",
+  "typing-extensions>=4.14.1; python_full_version<'3.12'",
 ]
 urls.Documentation = "https://github.com/edgarrmondragon/tap-socketdev#readme"
 urls.Homepage = "https://github.com/edgarrmondragon/tap-socketdev"
@@ -51,6 +52,7 @@ testing = [
 ]
 typing = [
   "mypy>=1.8",
+  "ty>=0.0.1a18",
   "types-requests~=2.32.0",
 ]
 

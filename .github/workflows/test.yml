@@ -71,8 +71,6 @@ jobs:
 
   typing:
     runs-on: ubuntu-24.04
-    env:
-      NOXSESSION: mypy
     steps:
     - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
     - uses: astral-sh/setup-uv@d9e0f98d3fc6adb07d1e3d37f3043649ddad06a1 # v6.5.0
@@ -83,4 +81,4 @@ jobs:
         uvx
         --no-python-downloads
         --with nox==${{ env.NOX_VERSION }}
-        nox --verbose
+        nox --verbose -t typing

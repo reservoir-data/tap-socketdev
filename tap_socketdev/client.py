@@ -2,8 +2,16 @@
 
 from __future__ import annotations
 
+import sys
+from http import HTTPStatus
+
 from requests.auth import HTTPBasicAuth
 from singer_sdk import RESTStream
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
 
 class SocketDevStream(RESTStream):
@@ -11,23 +19,9 @@ class SocketDevStream(RESTStream):
 
     url_base = "https://api.socket.dev"
 
+    extra_retry_statuses = (HTTPStatus.TOO_MANY_REQUESTS,)
+
     @property
+    @override
     def authenticator(self) -> HTTPBasicAuth:
-        """Get an authenticator object.
-
-        Returns:
-            The authenticator instance for this REST stream.
-        """
-        return HTTPBasicAuth(
-            username=self.config["api_key"],
-            password="",
-        )
-
-    @property
-    def http_headers(self) -> dict:
-        """Return the http headers needed.
-
-        Returns:
-            A dictionary of HTTP headers.
-        """
-        return {"User-Agent": f"{self.tap_name}/{self._tap.plugin_version}"}
+        return HTTPBasicAuth(username=self.config["api_key"], password="")

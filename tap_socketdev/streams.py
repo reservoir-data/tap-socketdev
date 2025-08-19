@@ -2,11 +2,17 @@
 
 from __future__ import annotations
 
+import sys
 import typing as t
 
 from singer_sdk import typing as th
 
 from tap_socketdev.client import SocketDevStream
+
+if sys.version_info >= (3, 12):
+    from typing import override
+else:
+    from typing_extensions import override
 
 if t.TYPE_CHECKING:
     from requests import Response
@@ -66,16 +72,6 @@ class Organizations(SocketDevStream):
         ),
     ).to_dict()
 
-    def parse_response(
-        self,
-        response: Response,
-    ) -> t.Generator[dict, None, None]:
-        """Parse the response and return an iterator of result rows.
-
-        Args:
-            response: The response object.
-
-        Yields:
-            An iterator of parsed records.
-        """
+    @override
+    def parse_response(self, response: Response) -> t.Generator[dict, None, None]:
         yield from response.json()["organizations"].values()
