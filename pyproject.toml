@@ -16,12 +16,10 @@ keywords = [
 ]
 license = "Apache-2.0"
 authors = [ { name = "Edgar Ramírez-Mondragón", email = "edgarrm358@gmail.com" } ]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 classifiers = [
   "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
@@ -31,7 +29,6 @@ dynamic = [ "version" ]
 dependencies = [
   "requests~=2.32.0",
   "singer-sdk~=0.48.0",
-  "typing-extensions>=4.14.1; python_full_version<'3.12'",
 ]
 urls.Documentation = "https://github.com/edgarrmondragon/tap-socketdev#readme"
 urls.Homepage = "https://github.com/edgarrmondragon/tap-socketdev"

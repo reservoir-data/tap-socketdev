@@ -2,18 +2,13 @@
 
 from __future__ import annotations
 
-import sys
 import typing as t
+from typing import override
 
 from singer_sdk import Tap
 from singer_sdk import typing as th
 
 from tap_socketdev import streams
-
-if sys.version_info >= (3, 12):
-    from typing import override
-else:
-    from typing_extensions import override
 
 if t.TYPE_CHECKING:
     from singer_sdk.streams import RESTStream
