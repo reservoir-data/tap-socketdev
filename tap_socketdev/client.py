@@ -2,16 +2,11 @@
 
 from __future__ import annotations
 
-import sys
 from http import HTTPStatus
+from typing import override
 
 from requests.auth import HTTPBasicAuth
 from singer_sdk import RESTStream
-
-if sys.version_info >= (3, 12):
-    from typing import override
-else:
-    from typing_extensions import override
 
 
 class SocketDevStream(RESTStream):
