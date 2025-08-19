@@ -42,4 +42,5 @@ class TapSocketDev(Tap):
             streams.Reports(tap=self),
             streams.Organizations(tap=self),
             streams.Repositories(tap=self),
+            streams.RepoLabels(tap=self),
         ]
