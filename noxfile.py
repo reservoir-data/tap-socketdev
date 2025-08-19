@@ -4,15 +4,11 @@ from __future__ import annotations
 
 import nox
 
-python_versions = [
-    "3.14",
-    "3.13",
-    "3.12",
-    "3.11",
-    "3.10",
-]
+PYPROJECT = nox.project.load_toml("pyproject.toml")
+PYTHON_VERSIONS = nox.project.python_versions(PYPROJECT)
+
 nox.needs_version = ">=2025.2.9"
-nox.options.sessions = ("tests", "mypy")
+nox.options.sessions = ("tests", "mypy", "ty")
 nox.options.default_venv_backend = "uv"
 
 UV_SYNC_COMMAND = (
@@ -23,7 +19,7 @@ UV_SYNC_COMMAND = (
 )
 
 
-@nox.session(python=python_versions)
+@nox.session(python=PYTHON_VERSIONS)
 def tests(session: nox.Session) -> None:
     """Execute pytest tests."""
     env = {
@@ -41,9 +37,9 @@ def tests(session: nox.Session) -> None:
     session.run("pytest", *session.posargs)
 
 
-@nox.session
+@nox.session(tags=["typing"])
 def mypy(session: nox.Session) -> None:
-    """Check types."""
+    """Check types with mypy."""
     env = {
         "UV_PROJECT_ENVIRONMENT": session.virtualenv.location,
     }
@@ -58,3 +54,21 @@ def mypy(session: nox.Session) -> None:
     )
     args = session.posargs or ("tap_socketdev", "tests")
     session.run("mypy", *args)
+
+
+@nox.session(tags=["typing"])
+def ty(session: nox.Session) -> None:
+    """Check types with ty."""
+    env = {
+        "UV_PROJECT_ENVIRONMENT": session.virtualenv.location,
+    }
+    if isinstance(session.python, str):
+        env["UV_PYTHON"] = session.python
+
+    session.run_install(
+        *UV_SYNC_COMMAND,
+        "--group=typing",
+        env=env,
+    )
+    args = session.posargs or ("tap_socketdev", "tests")
+    session.run("ty", "check", *args)
