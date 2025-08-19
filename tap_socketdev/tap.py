@@ -41,4 +41,5 @@ class TapSocketDev(Tap):
         return [
             streams.Reports(tap=self),
             streams.Organizations(tap=self),
+            streams.Repositories(tap=self),
         ]
