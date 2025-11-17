@@ -198,7 +198,7 @@ class RepoLabels(SocketDevStream):
         ),
         th.Property(
             "repository_ids",
-            th.ArrayType(th.StringType),
+            th.ArrayType(th.StringType),  # ty: ignore[invalid-argument-type]
             description="The IDs of repositories this label is associated with",
         ),
         th.Property(
