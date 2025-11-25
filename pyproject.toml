@@ -28,7 +28,7 @@ dynamic = [ "version" ]
 
 dependencies = [
   "requests~=2.32.0",
-  "singer-sdk~=0.52.2",
+  "singer-sdk~=0.53.2",
 ]
 urls.Documentation = "https://github.com/reservoir-data/tap-socketdev#readme"
 urls.Homepage = "https://github.com/reservoir-data/tap-socketdev"
