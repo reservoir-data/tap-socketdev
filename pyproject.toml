@@ -44,7 +44,7 @@ ci = [
   "pytest-github-actions-annotate-failures>=0.3",
 ]
 testing = [
-  "pytest~=8.0",
+  "pytest~=9.0",
   "singer-sdk[testing]",
 ]
 typing = [
