@@ -25,7 +25,6 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dynamic = [ "version" ]
-
 dependencies = [
   "requests~=2.32.0",
   "singer-sdk~=0.53.2",
@@ -53,8 +52,8 @@ typing = [
   "types-requests~=2.32.0",
 ]
 
-[tool.hatch.version]
-source = "vcs"
+[tool.hatch]
+version.source = "vcs"
 
 [tool.ruff]
 line-length = 88
@@ -88,8 +87,8 @@ lint.pydocstyle.convention = "google"
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
-[tool.pytest.ini_options]
-addopts = "-vvv"
+[tool.pytest]
+ini_options.addopts = "-vvv"
 
 [tool.mypy]
 warn_redundant_casts = true
