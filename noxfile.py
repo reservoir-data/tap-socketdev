@@ -1,3 +1,9 @@
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# dependencies = ["nox"]
+# ///
+
 """Nox configuration."""
 
 from __future__ import annotations
@@ -72,3 +78,7 @@ def ty(session: nox.Session) -> None:
     )
     args = session.posargs or ("tap_socketdev", "tests")
     session.run("ty", "check", *args)
+
+
+if __name__ == "__main__":
+    nox.main()

@@ -2,15 +2,16 @@
 
 from __future__ import annotations
 
-import typing as t
-from typing import override
+from typing import TYPE_CHECKING, Any, override
 
 from singer_sdk import typing as th
 from singer_sdk.pagination import PageNumberPaginator
 
 from tap_socketdev.client import SocketDevStream
 
-if t.TYPE_CHECKING:
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable
+
     from requests import Response
     from singer_sdk.helpers.types import Context
 
@@ -70,15 +71,18 @@ class Organizations(SocketDevStream):
     ).to_dict()
 
     @override
-    def parse_response(self, response: Response) -> t.Generator[dict, None, None]:
+    def parse_response(
+        self,
+        response: Response,
+    ) -> Generator[dict[str, Any], None, None]:
         yield from response.json()["organizations"].values()
 
     @override
     def generate_child_contexts(
         self,
-        record: dict[str, t.Any],
+        record: dict[str, Any],
         context: Context | None,
-    ) -> t.Iterable[Context | None]:
+    ) -> Iterable[Context | None]:
         yield {
             "org_slug": record["slug"],
         }
@@ -165,7 +169,7 @@ class Repositories(SocketDevStream):
         self,
         context: Context | None,
         next_page_token: int | None,
-    ) -> dict[str, t.Any] | str:
+    ) -> dict[str, Any] | str:
         return {
             "page": next_page_token,
             "per_page": 100,
@@ -198,7 +202,7 @@ class RepoLabels(SocketDevStream):
         ),
         th.Property(
             "repository_ids",
-            th.ArrayType(th.StringType),  # ty: ignore[invalid-argument-type]
+            th.ArrayType(th.StringType),
             description="The IDs of repositories this label is associated with",
         ),
         th.Property(
@@ -225,7 +229,7 @@ class RepoLabels(SocketDevStream):
         self,
         context: Context | None,
         next_page_token: int | None,
-    ) -> dict[str, t.Any] | str:
+    ) -> dict[str, Any] | str:
         return {
             "page": next_page_token,
             "per_page": 100,
