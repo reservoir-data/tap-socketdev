@@ -6,7 +6,7 @@ import typing as t
 from typing import override
 
 from singer_sdk import typing as th
-from singer_sdk.pagination import BasePageNumberPaginator
+from singer_sdk.pagination import PageNumberPaginator
 
 from tap_socketdev.client import SocketDevStream
 
@@ -232,5 +232,5 @@ class RepoLabels(SocketDevStream):
         }
 
     @override
-    def get_new_paginator(self) -> BasePageNumberPaginator | None:
-        return BasePageNumberPaginator(start_value=1)
+    def get_new_paginator(self) -> PageNumberPaginator | None:
+        return PageNumberPaginator(start_value=1)
