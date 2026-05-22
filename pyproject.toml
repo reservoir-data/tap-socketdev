@@ -25,8 +25,8 @@ classifiers = [
 ]
 dynamic = [ "version" ]
 dependencies = [
-  "requests~=2.33.0",
-  "singer-sdk~=0.54.0a4",
+  "requests~=2.34.0",
+  "singer-sdk~=0.54.2",
 ]
 [[project.authors]]
 name = "Edgar Ramírez-Mondragón"
@@ -53,7 +53,6 @@ testing = [
 typing = [
   "mypy>=1.9",
   "ty>=0.0.21",
-  "types-requests~=2.33.0",
 ]
 
 [tool.hatch]
@@ -102,10 +101,9 @@ warn_unused_configs = true
 warn_unused_ignores = true
 
 [tool.pytest]
-addopts = [ "-vvv", "-ra", "--strict-config", "--strict-markers" ]
+addopts = [ "-v", "-ra" ]
 filterwarnings = [ "error" ]
 log_level = "INFO"
 minversion = "9"
 strict = true
 testpaths = [ "tests" ]
-xfail_strict = true
