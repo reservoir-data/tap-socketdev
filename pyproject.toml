@@ -51,11 +51,10 @@ testing = [
   "singer-sdk[testing]",
 ]
 typing = [
-  "mypy>=1.9",
-  "ty>=0.0.21",
+  "mypy>=2.1",
+  "ty>=0.0.50",
 ]
 
-[tool.hatch]
 [tool.hatch.version]
 source = "vcs"
 
@@ -84,9 +83,6 @@ unfixable = [
   "ERA001", # commented-out-code
 ]
 flake8-annotations.allow-star-arg-any = true
-isort.required-imports = [
-  "from __future__ import annotations",
-]
 pydocstyle.convention = "google"
 
 [tool.pyproject-fmt]

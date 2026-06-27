@@ -856,18 +856,18 @@ requires-dist = [
 [package.metadata.requires-dev]
 ci = [{ name = "pytest-github-actions-annotate-failures", specifier = ">=0.3" }]
 dev = [
-    { name = "mypy", specifier = ">=1.9" },
+    { name = "mypy", specifier = ">=2.1" },
     { name = "pytest", specifier = "~=9.0" },
     { name = "singer-sdk", extras = ["testing"] },
-    { name = "ty", specifier = ">=0.0.21" },
+    { name = "ty", specifier = ">=0.0.50" },
 ]
 testing = [
     { name = "pytest", specifier = "~=9.0" },
     { name = "singer-sdk", extras = ["testing"] },
 ]
 typing = [
-    { name = "mypy", specifier = ">=1.9" },
-    { name = "ty", specifier = ">=0.0.21" },
+    { name = "mypy", specifier = ">=2.1" },
+    { name = "ty", specifier = ">=0.0.50" },
 ]
 
 [[package]]

@@ -9,7 +9,7 @@ on:
     - noxfile.py
     - pyproject.toml
     - uv.lock
-    - .github/workflows/test.yml
+    - .github/workflows/test.yaml
   pull_request:
     paths:
     - tap_socketdev/**
@@ -17,7 +17,7 @@ on:
     - noxfile.py
     - pyproject.toml
     - uv.lock
-    - .github/workflows/test.yml
+    - .github/workflows/test.yaml
   workflow_dispatch:
   schedule:
   # Run weekly on Monday at 12:00 PM UTC
@@ -38,8 +38,23 @@ env:
   UV_VERSION: 0.11.17
 
 jobs:
-  test:
+  build-package:
+    name: Build & verify package
     runs-on: ubuntu-24.04
+    outputs:
+      supported-python-versions: ${{ steps.baipp.outputs.supported_python_classifiers_json_array }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: hynek/build-and-inspect-python-package@d44ca7d91762de7a7d5436ddae667c6da6d1c3df # v2.18.0
+        id: baipp
+
+  test:
+    name: Tests
+    runs-on: ubuntu-24.04
+    needs: build-package
     env:
       NOXFORCEPYTHON: ${{ matrix.python-version }}
       NOXSESSION: tests
@@ -48,37 +63,40 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        python-version:
-        - "3.12"
-        - "3.13"
-        - "3.14"
+        python-version: ${{ fromJson(needs.build-package.outputs.supported-python-versions) }}
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
+        python_version: ${{ matrix.python-version }}
         version: ${{ env.UV_VERSION }}
     - name: Run tests
       env:
         TAP_SOCKETDEV_API_KEY: ${{ secrets.TAP_SOCKETDEV_API_KEY }}
         TAP_SOCKETDEV_START_DATE: ${{ secrets.TAP_SOCKETDEV_START_DATE }}
+        NOX_VERSION: ${{ env.NOX_VERSION }}
       run: >
         uvx
-        --managed-python
-        --python ${{ matrix.python-version }}
-        --with nox==${{ env.NOX_VERSION }}
+        --with nox=="$NOX_VERSION"
         nox --verbose
 
   typing:
+    name: Lint
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      with:
+        persist-credentials: false
     - uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
       with:
         version: ${{ env.UV_VERSION }}
     - name: Run typing checks
+      env:
+        NOX_VERSION: ${{ env.NOX_VERSION }}
       run: >
         uvx
-        --no-python-downloads
-        --with nox==${{ env.NOX_VERSION }}
+        --with nox=="${NOX_VERSION}"
         nox --verbose -t typing
