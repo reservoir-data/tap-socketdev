@@ -32,12 +32,12 @@ dependencies = [
 [[project.authors]]
 name = "Edgar Ramírez-Mondragón"
 email = "edgarrm358@gmail.com"
-[project.scripts]
-tap-socketdev = "tap_socketdev.tap:TapSocketDev.cli"
 [project.urls]
 Documentation = "https://github.com/reservoir-data/tap-socketdev#readme"
 Homepage = "https://github.com/reservoir-data/tap-socketdev"
 Repository = "https://github.com/reservoir-data/tap-socketdev"
+[project.scripts]
+tap-socketdev = "tap_socketdev.tap:TapSocketDev.cli"
 
 [dependency-groups]
 dev = [
@@ -67,10 +67,10 @@ select = [
 ]
 ignore = [
   "COM812", # missing-trailing-comma
+  "CPY001", # missing-copyright-notice
   "DJ",     # flake8-django
   "FIX002", # line-contains-todo
   "ISC001", # single-line-implicit-string-concatenation
-  "CPY001", # missing-copyright-notice
 ]
 per-file-ignores."noxfile.py" = [
   "ANN",
