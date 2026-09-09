@@ -32,6 +32,7 @@ concurrency:
 
 env:
   FORCE_COLOR: "1"
+  UV_MANAGED_PYTHON: "1"
   # renovate: datasource=pypi depName=nox
   NOX_VERSION: 2026.8.17
   # renovate: datasource=pypi depName=uv
@@ -71,7 +72,7 @@ jobs:
         persist-credentials: false
     - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
       with:
-        python_version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }}
         version: ${{ env.UV_VERSION }}
     - name: Run tests
       env:

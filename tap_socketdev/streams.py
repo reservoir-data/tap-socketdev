@@ -71,10 +71,7 @@ class Organizations(SocketDevStream):
     ).to_dict()
 
     @override
-    def parse_response(
-        self,
-        response: Response,
-    ) -> Generator[dict[str, Any], None, None]:
+    def parse_response(self, response: Response) -> Generator[dict[str, Any]]:
         yield from response.json()["organizations"].values()
 
     @override
